@@ -1,0 +1,10 @@
+#!/usr/bin/make -f
+
+%:
+	dh $@
+
+override_dh_auto_build:
+	# nothing to build for a single shell script
+
+override_dh_auto_install:
+	$(MAKE) install DESTDIR=$(CURDIR)/debian/whatismyip PREFIX=/usr

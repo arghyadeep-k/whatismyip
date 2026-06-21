@@ -1,0 +1,16 @@
+Source: whatismyip
+Section: net
+Priority: optional
+Maintainer: Arghya <contact@arghyadeep.in>
+Build-Depends: debhelper-compat (= 13)
+Standards-Version: 4.6.2
+Homepage: https://github.com/arghyadeep-k/whatismyip
+Rules-Requires-Root: no
+
+Package: whatismyip
+Architecture: all
+Depends: bash, curl, iproute2, ${misc:Depends}
+Description: Print your public and local IP address(es)
+ whatismyip is a small CLI tool that prints your public IPv4/IPv6
+ address (via ifconfig.me, icanhazip.com, or ipinfo.io) and/or your
+ local IPv4 address(es) via the system's iproute2 tools.

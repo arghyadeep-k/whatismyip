@@ -40,6 +40,25 @@ sudo make install PREFIX=/usr
 sudo ./install.sh
 ```
 
+### Building and installing a .deb package (Debian/Ubuntu)
+
+#### Standard method (requires debhelper)
+
+```sh
+sudo apt-get install -y devscripts debhelper
+debuild -us -uc -b
+sudo apt install ../whatismyip_1.0.0-1_all.deb
+```
+
+#### Quick method (no debhelper required)
+
+```sh
+./build-deb.sh
+sudo apt install ./whatismyip_1.0.0_all.deb
+```
+
+Either method installs `whatismyip` to `/usr/bin/whatismyip`.
+
 ### Manual
 
 ```sh
@@ -50,4 +69,10 @@ sudo install -m 0755 bin/whatismyip /usr/local/bin/whatismyip
 
 ```sh
 sudo make uninstall
+```
+
+Uninstalling the .deb:
+
+```sh
+sudo apt remove whatismyip
 ```
