@@ -1,0 +1,56 @@
+#!/usr/bin/env bash
+# whatismyip - print your public (and optionally local) IP address(es)
+
+set -euo pipefail
+
+get_public_v4() {
+    curl -s -4 https://ifconfig.me 2>/dev/null \
+        || curl -s -4 https://icanhazip.com 2>/dev/null \
+        || curl -s -4 https://ipinfo.io/ip
+}
+
+get_public_v6() {
+    curl -s -6 https://ifconfig.me 2>/dev/null \
+        || curl -s -6 https://icanhazip.com 2>/dev/null
+}
+
+get_local() {
+    ip -4 addr show scope global | grep -oP '(?<=inet\s)\d+(\.\d+){3}'
+}
+
+usage() {
+    cat <<EOF
+Usage: whatismyip [OPTION]
+
+  (no option)   Show public IPv4 address
+  -6            Show public IPv6 address
+  -l, --local   Show local IPv4 address(es)
+  -a, --all     Show public and local IPv4 addresses
+  -h, --help    Show this help
+EOF
+}
+
+case "${1:-}" in
+    -6)
+        get_public_v6
+        ;;
+    -l|--local)
+        get_local
+        ;;
+    -a|--all)
+        echo "Public: $(get_public_v4)"
+        echo "Local:"
+        get_local
+        ;;
+    -h|--help)
+        usage
+        ;;
+    "")
+        get_public_v4
+        ;;
+    *)
+        echo "Unknown option: $1" >&2
+        usage
+        exit 1
+        ;;
+esac
