@@ -1,6 +1,6 @@
 PREFIX ?= /usr/local
 
-.PHONY: install uninstall
+.PHONY: install uninstall test
 
 install:
 	install -d $(DESTDIR)$(PREFIX)/bin
@@ -8,3 +8,6 @@ install:
 
 uninstall:
 	rm -f $(DESTDIR)$(PREFIX)/bin/whatismyip
+
+test:
+	bats test/

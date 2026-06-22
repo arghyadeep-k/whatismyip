@@ -76,3 +76,10 @@ Uninstalling the .deb:
 ```sh
 sudo apt remove whatismyip
 ```
+
+## Running tests
+
+```sh
+sudo apt-get install -y bats
+make test
+```
