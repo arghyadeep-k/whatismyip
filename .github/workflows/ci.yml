@@ -2,15 +2,37 @@ name: CI
 
 on:
   push:
+  pull_request: 
 
 jobs:
-  test:
-    runs-on: ubuntu-latest
+  test-bash:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
 
       - name: Install bats
-        run: sudo apt-get update && sudo apt-get install -y bats
+        run: |
+          if [ "${{ matrix.os }}" = "ubuntu-latest" ]; then
+            sudo apt-get update && sudo apt-get install -y bats
+          else
+            brew install bats-core
+          fi
 
       - name: Run tests
         run: make test
+
+  test-powershell:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Pester
+        shell: pwsh
+        run: Install-Module -Name Pester -Force -SkipPublisherCheck -Scope CurrentUser
+
+      - name: Run tests
+        shell: pwsh
+        run: Invoke-Pester -Path test/whatismyip.Tests.ps1 -CI
