@@ -40,6 +40,46 @@ sudo make install PREFIX=/usr
 sudo ./install.sh
 ```
 
+### Installing via apt (Debian/Ubuntu)
+
+```sh
+curl -fsSL https://arghyadeep-k.github.io/whatismyip/KEY.gpg \
+  | sudo tee /usr/share/keyrings/whatismyip.gpg >/dev/null
+echo "deb [signed-by=/usr/share/keyrings/whatismyip.gpg] https://arghyadeep-k.github.io/whatismyip stable main" \
+  | sudo tee /etc/apt/sources.list.d/whatismyip.list
+sudo apt update && sudo apt install whatismyip
+```
+
+#### Publishing a new release (maintainers)
+
+One-time setup: generate a dedicated signing key, add the armored private key
+(`gpg --armor --export-secret-keys <id>`) as the `GPG_PRIVATE_KEY` repo secret
+(and `GPG_PASSPHRASE` if it has one), then enable GitHub Pages from the
+`gh-pages` branch.
+
+Per release: `git tag v1.0.1 && git push origin v1.0.1`. The
+`Publish apt repo` workflow builds the .deb, signs the repo metadata, and
+pushes it to `gh-pages`.
+
+### Building and installing a .deb package (Debian/Ubuntu)
+
+#### Standard method (requires debhelper)
+
+```sh
+sudo apt-get install -y devscripts debhelper
+debuild -us -uc -b
+sudo apt install ../whatismyip_1.0.0-1_all.deb
+```
+
+#### Quick method (no debhelper required)
+
+```sh
+./build-deb.sh
+sudo apt install ./whatismyip_1.0.0_all.deb
+```
+
+Either method installs `whatismyip` to `/usr/bin/whatismyip`.
+
 ### Building and installing a .deb package (Debian/Ubuntu)
 
 #### Standard method (requires debhelper)
