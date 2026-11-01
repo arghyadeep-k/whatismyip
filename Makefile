@@ -9,5 +9,8 @@ install:
 uninstall:
 	rm -f $(DESTDIR)$(PREFIX)/bin/whatismyip
 
+test-pwsh:
+	pwsh -NoProfile -File test/Run-Tests.ps1
+
 test:
 	bats test/

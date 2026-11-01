@@ -15,7 +15,15 @@ get_public_v6() {
 }
 
 get_local() {
-    ip -4 addr show scope global | grep -oP '(?<=inet\s)\d+(\.\d+){3}'
+    if command -v ip >/dev/null 2>&1; then
+        ip -4 addr show scope global | grep -oE 'inet [0-9]+(\.[0-9]+){3}' | awk '{print $2}'
+    elif command -v ifconfig >/dev/null 2>&1; then
+        # macOS / BSD ifconfig has no "scope global" concept; exclude loopback.
+        ifconfig | grep -oE 'inet [0-9]+(\.[0-9]+){3}' | awk '{print $2}' | grep -v '^127\.'
+    else
+        echo "Error: neither 'ip' nor 'ifconfig' found" >&2
+        return 1
+    fi
 }
 
 usage() {
