@@ -2,11 +2,10 @@
 # whatismyip - print your public (and optionally local) IP address(es)
 # Works on Windows PowerShell 5.1+ and PowerShell 7+ (Windows/macOS/Linux).
 
-[CmdletBinding()]
-param(
-    [Parameter(Position = 0)]
-    [string]$Option
-)
+# Deliberately not a [CmdletBinding()] script with a named parameter:
+# PowerShell would treat -h, -l, -a, -6 as parameter names and reject them.
+# Reading $args keeps the same flags as the bash version.
+$Option = if ($args.Count -gt 0) { [string]$args[0] } else { '' }
 
 $ErrorActionPreference = 'Stop'
 
@@ -75,7 +74,9 @@ switch ($Option) {
         Get-PublicV4
     }
     default {
-        Write-Error "Unknown option: $Option"
+        # $ErrorActionPreference is 'Stop', so Write-Error would throw before
+        # reaching `exit 1`. Write to stderr directly instead.
+        [Console]::Error.WriteLine("Unknown option: $Option")
         Show-Usage
         exit 1
     }
