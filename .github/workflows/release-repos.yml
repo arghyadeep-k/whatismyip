@@ -1,4 +1,4 @@
-name: Publish apt repo
+name: Publish package repos
 
 on:
   push:
@@ -15,7 +15,7 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Install tools
-        run: sudo apt-get update && sudo apt-get install -y bats dpkg-dev apt-utils gnupg
+        run: sudo apt-get update && sudo apt-get install -y bats dpkg-dev apt-utils gnupg rpm createrepo-c
 
       - name: Run tests
         run: make test
@@ -24,6 +24,11 @@ jobs:
         run: |
           VERSION="${GITHUB_REF_NAME#v}"
           VERSION="$VERSION" ./build-deb.sh
+
+      - name: Build .rpm
+        run: |
+          VERSION="${GITHUB_REF_NAME#v}"
+          VERSION="$VERSION" ./build-rpm.sh
 
       - name: Import signing key
         env:
@@ -47,6 +52,11 @@ jobs:
         env:
           GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
         run: scripts/publish-apt.sh ../apt-repo whatismyip_*_all.deb
+
+      - name: Update dnf repository
+        env:
+          GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+        run: scripts/publish-yum.sh ../apt-repo whatismyip-*.noarch.rpm
 
       - name: Push to gh-pages
         working-directory: ../apt-repo
