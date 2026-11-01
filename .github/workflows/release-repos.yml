@@ -1,0 +1,68 @@
+name: Publish package repos
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install tools
+        run: sudo apt-get update && sudo apt-get install -y bats dpkg-dev apt-utils gnupg rpm createrepo-c
+
+      - name: Run tests
+        run: make test
+
+      - name: Build .deb
+        run: |
+          VERSION="${GITHUB_REF_NAME#v}"
+          VERSION="$VERSION" ./build-deb.sh
+
+      - name: Build .rpm
+        run: |
+          VERSION="${GITHUB_REF_NAME#v}"
+          VERSION="$VERSION" ./build-rpm.sh
+
+      - name: Import signing key
+        env:
+          GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+        run: |
+          echo "$GPG_PRIVATE_KEY" | gpg --batch --import
+          echo "GPG_KEY_ID=$(gpg --list-secret-keys --with-colons | awk -F: '/^sec/ {print $5; exit}')" >> "$GITHUB_ENV"
+
+      - name: Check out gh-pages (create if missing)
+        run: |
+          if git ls-remote --exit-code --heads origin gh-pages >/dev/null; then
+            git fetch origin gh-pages
+            git worktree add ../apt-repo gh-pages
+          else
+            git worktree add --detach ../apt-repo
+            git -C ../apt-repo checkout --orphan gh-pages
+            git -C ../apt-repo rm -rf . >/dev/null 2>&1 || true
+          fi
+
+      - name: Update apt repository
+        env:
+          GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+        run: scripts/publish-apt.sh ../apt-repo whatismyip_*_all.deb
+
+      - name: Update dnf repository
+        env:
+          GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+        run: scripts/publish-yum.sh ../apt-repo whatismyip-*.noarch.rpm
+
+      - name: Push to gh-pages
+        working-directory: ../apt-repo
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "Publish ${GITHUB_REF_NAME}"
+          git push origin HEAD:gh-pages
