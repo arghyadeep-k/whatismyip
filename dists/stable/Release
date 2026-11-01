@@ -1,0 +1,35 @@
+Architectures: all amd64 arm64
+Codename: stable
+Components: main
+Date: Sun, 01 Nov 2026 16:32:24 +0000
+Label: whatismyip
+Origin: whatismyip
+Suite: stable
+MD5Sum:
+ 866b2d7b1f0179bdc54197e6f8fc5474              543 main/binary-all/Packages
+ 91fa73bc28580d3dda8ac7cfd2205b0f              401 main/binary-all/Packages.gz
+ 866b2d7b1f0179bdc54197e6f8fc5474              543 main/binary-amd64/Packages
+ 91fa73bc28580d3dda8ac7cfd2205b0f              401 main/binary-amd64/Packages.gz
+ 866b2d7b1f0179bdc54197e6f8fc5474              543 main/binary-arm64/Packages
+ 91fa73bc28580d3dda8ac7cfd2205b0f              401 main/binary-arm64/Packages.gz
+SHA1:
+ 1e072a2736f5e8f8588e7d1af63ee9d56bb96d48              543 main/binary-all/Packages
+ f3efdb45d7ddc65548aa3d97b74f592fe48f8efb              401 main/binary-all/Packages.gz
+ 1e072a2736f5e8f8588e7d1af63ee9d56bb96d48              543 main/binary-amd64/Packages
+ f3efdb45d7ddc65548aa3d97b74f592fe48f8efb              401 main/binary-amd64/Packages.gz
+ 1e072a2736f5e8f8588e7d1af63ee9d56bb96d48              543 main/binary-arm64/Packages
+ f3efdb45d7ddc65548aa3d97b74f592fe48f8efb              401 main/binary-arm64/Packages.gz
+SHA256:
+ d8b58c505d89ed819f682b4e4412cff3d60f72ab1d16ac3c9d6870942ae03f67              543 main/binary-all/Packages
+ 678d68e444ea155f57e1a5d2d63ed1473827c415b768d9de43e3fedb1e6677b4              401 main/binary-all/Packages.gz
+ d8b58c505d89ed819f682b4e4412cff3d60f72ab1d16ac3c9d6870942ae03f67              543 main/binary-amd64/Packages
+ 678d68e444ea155f57e1a5d2d63ed1473827c415b768d9de43e3fedb1e6677b4              401 main/binary-amd64/Packages.gz
+ d8b58c505d89ed819f682b4e4412cff3d60f72ab1d16ac3c9d6870942ae03f67              543 main/binary-arm64/Packages
+ 678d68e444ea155f57e1a5d2d63ed1473827c415b768d9de43e3fedb1e6677b4              401 main/binary-arm64/Packages.gz
+SHA512:
+ 93747861ac28badc11d5898e8f095518a2767c86da8cfbbab9feeef6a4fc5f1333f44f6dd9c953827d6572cad15714ddfbedde1062a281b8aa271bd49b636837              543 main/binary-all/Packages
+ e6d2a0b0ee31429f4aa646ff5158ee25ff63c199bb2c4e267ea0062f4ef90e7b746304e5828d4f871bb3d5a04fbb0187c94e4eee8d6698365034d5b585a5a730              401 main/binary-all/Packages.gz
+ 93747861ac28badc11d5898e8f095518a2767c86da8cfbbab9feeef6a4fc5f1333f44f6dd9c953827d6572cad15714ddfbedde1062a281b8aa271bd49b636837              543 main/binary-amd64/Packages
+ e6d2a0b0ee31429f4aa646ff5158ee25ff63c199bb2c4e267ea0062f4ef90e7b746304e5828d4f871bb3d5a04fbb0187c94e4eee8d6698365034d5b585a5a730              401 main/binary-amd64/Packages.gz
+ 93747861ac28badc11d5898e8f095518a2767c86da8cfbbab9feeef6a4fc5f1333f44f6dd9c953827d6572cad15714ddfbedde1062a281b8aa271bd49b636837              543 main/binary-arm64/Packages
+ e6d2a0b0ee31429f4aa646ff5158ee25ff63c199bb2c4e267ea0062f4ef90e7b746304e5828d4f871bb3d5a04fbb0187c94e4eee8d6698365034d5b585a5a730              401 main/binary-arm64/Packages.gz

@@ -1,0 +1,16 @@
+Package: whatismyip
+Version: 1.0.0
+Architecture: all
+Maintainer: Arghya <contact@arghyadeep.in>
+Depends: bash, curl, iproute2
+Filename: pool/main/whatismyip_1.0.0_all.deb
+Size: 1108
+MD5sum: 54f982bb93173408bafa65b4888a0a66
+SHA1: d425fd2d3165fab52f1b31d6d38c3356947c2474
+SHA256: 5e2d73e9074dd5fff7d0f3a243bdbf24aa603098cfc045c3cac079cc3d67e632
+Section: net
+Priority: optional
+Description: Print your public and local IP address(es)
+ whatismyip is a small CLI tool that prints your public IPv4/IPv6
+ address and/or your local IPv4 address(es).
+
