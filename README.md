@@ -73,9 +73,10 @@ One-time setup: generate a dedicated signing key, add the armored private key
 (and `GPG_PASSPHRASE` if it has one), then enable GitHub Pages from the
 `gh-pages` branch.
 
-Per release: `git tag v1.0.1 && git push origin v1.0.1`. The
-`Publish package repos` workflow builds the .deb and .rpm, signs the apt and
-dnf repo metadata, and pushes both to `gh-pages`.
+Per release: `git tag v1.0.1 && git push origin v1.0.1`. The tag (minus the
+leading `v`) becomes the package version. The `Publish package repos` workflow
+runs the tests, builds the .deb and .rpm, signs the apt and dnf repo metadata,
+and pushes both to `gh-pages`.
 
 #### Building and installing a .deb package (Debian/Ubuntu)
 
@@ -132,14 +133,11 @@ This installs `whatismyip` to `/usr/bin/whatismyip`.
 
 #### Publishing to COPR
 
-`whatismyip.spec` builds from a GitHub release tarball, so a tagged release is required first:
-
-```sh
-git tag v1.0.0
-git push origin v1.0.0
-```
-
-Then create a [GitHub release](https://github.com/arghyadeep-k/whatismyip/releases) for that tag (so the `archive/refs/tags/v1.0.0` tarball URL in the spec resolves), and:
+`whatismyip.spec` builds from the GitHub tag tarball
+(`archive/refs/tags/v<version>`), so the tag must exist first. `v1.0.0` is
+already pushed; for a new version, bump the default `Version:` in
+`whatismyip.spec`, then tag and push (this is the same tag that publishes the
+apt/dnf repos). A separate GitHub release is not required. Then:
 
 1. Sign in to [copr.fedorainfracloud.org](https://copr.fedorainfracloud.org) with your Fedora account.
 2. Create a new project, e.g. `whatismyip`.
@@ -225,3 +223,5 @@ make test
 Install-Module -Name Pester -Force -Scope CurrentUser
 Invoke-Pester -Path test/whatismyip.Tests.ps1
 ```
+
+Or, with PowerShell 7 (`pwsh`) on any OS: `make test-pwsh`.
